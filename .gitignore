@@ -32,3 +32,13 @@ htmlcov/
 # IDE
 .idea/
 .vscode/
+
+# Django
+*.sqlite3
+*.sqlite3-journal
+/media
+/staticfiles
+
+# OS generated files
+.DS_Store
+Thumbs.db
