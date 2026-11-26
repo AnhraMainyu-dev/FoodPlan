@@ -166,9 +166,7 @@ class Payment(models.Model):
         return f"Оплата #{self.id} на {self.amount} руб."
 
     def set_price(self):
-        base_price = sum(
-            meal.price for meal in self.subscription.meal_types.all()
-        )
+        base_price = sum(meal.price for meal in self.subscription.meal_types.all())
         price = base_price + (base_price * self.duration.extra_percent // 100)
 
         if self.promocode and self.promocode.is_active:
