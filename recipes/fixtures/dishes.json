@@ -112,6 +112,66 @@
     }
   },
   {
+    "model": "recipes.personoption",
+    "pk": 1,
+    "fields": {
+      "name": "1 персона",
+      "price": 0,
+      "count": 1,
+      "index_value": 0
+    }
+  },
+  {
+    "model": "recipes.personoption",
+    "pk": 2,
+    "fields": {
+      "name": "2 персоны",
+      "price": 0,
+      "count": 2,
+      "index_value": 1
+    }
+  },
+  {
+    "model": "recipes.personoption",
+    "pk": 3,
+    "fields": {
+      "name": "3 персоны",
+      "price": 0,
+      "count": 3,
+      "index_value": 2
+    }
+  },
+  {
+    "model": "recipes.personoption",
+    "pk": 4,
+    "fields": {
+      "name": "4 персоны",
+      "price": 0,
+      "count": 4,
+      "index_value": 3
+    }
+  },
+  {
+    "model": "recipes.personoption",
+    "pk": 5,
+    "fields": {
+      "name": "5 персон",
+      "price": 0,
+      "count": 5,
+      "index_value": 4
+    }
+  },
+  {
+    "model": "recipes.personoption",
+    "pk": 6,
+    "fields": {
+      "name": "6 персон",
+      "price": 0,
+      "count": 6,
+      "index_value": 5
+    }
+  },
+  {
     "model": "recipes.allergy",
     "pk": 1,
     "fields": {
@@ -149,6 +209,14 @@
     "fields": {
       "name": "Молочные продукты",
       "index_value": 4
+    }
+  },
+  {
+    "model": "recipes.allergy",
+    "pk": 6,
+    "fields": {
+      "name": "Продукты пчеловодства",
+      "index_value": 5
     }
   },
   {
