@@ -43,7 +43,7 @@ def order(request):
     return render(request, "order.html", context)
 
 
-def pick_dish(subscription, meal_type, exclude_dish_ids=None):
+def get_available_dishes(subscription, meal_type, exclude_dish_ids=None):
     exclude_dish_ids = exclude_dish_ids or []
     user_allergies = subscription.allergies.all()
 
@@ -55,11 +55,7 @@ def pick_dish(subscription, meal_type, exclude_dish_ids=None):
     )
 
     exact_dishes = list(base_qs.filter(diet_type=subscription.diet_type))
-    if exact_dishes:
-        return random.choice(exact_dishes)
-
-    other_diet_dishes = list(base_qs)
-    return random.choice(other_diet_dishes) if other_diet_dishes else None
+    return exact_dishes or list(base_qs)
 
 
 @login_required
@@ -71,6 +67,8 @@ def subscription_menu(request, subscription_id):
     )
     today = date.today()
     persons_count = subscription.persons.count
+    session_key = f"shown_dishes_{subscription.id}_{today}"
+    shown_ids = set(request.session.get(session_key, []))
 
     existing_menus = {
         menu.dish.meal_type_id: menu
@@ -87,7 +85,8 @@ def subscription_menu(request, subscription_id):
         user_menu = existing_menus.get(meal_type.id)
 
         if not user_menu:
-            dish = pick_dish(subscription, meal_type)
+            dishes = get_available_dishes(subscription, meal_type, exclude_dish_ids=shown_ids)
+            dish = random.choice(dishes) if dishes else None
             if dish:
                 user_menu = UserMenu.objects.create(
                     subscription=subscription,
@@ -96,8 +95,16 @@ def subscription_menu(request, subscription_id):
                 )
 
         if user_menu:
+            shown_ids.add(user_menu.dish.id)
             spent_replacements += DAILY_REPLACEMENTS_LIMIT - user_menu.replacements_left
             dish = user_menu.dish
+
+            alternatives = get_available_dishes(
+                subscription,
+                meal_type,
+                exclude_dish_ids=shown_ids,
+            )
+
             ingredients = []
             for item in dish.dishingredient_set.select_related("ingredient").all():
                 total_amount = item.amount * persons_count
@@ -118,9 +125,11 @@ def subscription_menu(request, subscription_id):
                     "dish": dish,
                     "ingredients": ingredients,
                     "calories_per_portion": dish.calories,
+                    "can_replace": bool(alternatives),
                 }
             )
 
+    request.session[session_key] = list(shown_ids)
     replacements_left = max(0, DAILY_REPLACEMENTS_LIMIT - spent_replacements)
 
     context = {
@@ -147,15 +156,26 @@ def replace_dish(request, menu_id):
     replacements_left = max(0, DAILY_REPLACEMENTS_LIMIT - spent_today)
 
     if request.method == "POST" and replacements_left > 0:
-        today_dish_ids = list(today_menus.values_list("dish_id", flat=True))
-        new_dish = pick_dish(
+        session_key = f"shown_dishes_{user_menu.subscription.id}_{user_menu.assigned_date}"
+        shown_ids = set(
+            request.session.get(
+                session_key,
+            )
+        )
+        shown_ids.update(today_menus.values_list("dish_id", flat=True))
+
+        available_dishes = get_available_dishes(
             subscription=user_menu.subscription,
             meal_type=user_menu.dish.meal_type,
-            exclude_dish_ids=today_dish_ids,
+            exclude_dish_ids=shown_ids,
         )
+        new_dish = random.choice(available_dishes) if available_dishes else None
+
         if new_dish:
             user_menu.dish = new_dish
             user_menu.replacements_left -= 1
             user_menu.save()
+            shown_ids.add(new_dish.id)
+            request.session[session_key] = list(shown_ids)
 
     return redirect("subscription_menu", subscription_id=user_menu.subscription.id)

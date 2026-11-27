@@ -74,8 +74,10 @@
                                                 Заменить блюдо (осталось замен на сегодня: {{ replacements_left }})
                                             </button>
                                         </form>
-                                    {% else %}
+                                    {% elif replacements_left == 0 %}
                                         <small class="text-muted">Лимит замен на сегодня исчерпан</small>
+                                    {% else %}
+                                        <small class="text-muted">Других подходящих блюд для этого приёма пищи пока нет</small>
                                     {% endif %}
                                 </div>
                             </div>
