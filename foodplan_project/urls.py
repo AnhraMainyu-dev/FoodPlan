@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.urls import path
 from django.views.generic import TemplateView
 
-from recipes.views import home, order
+from recipes.views import home, order, replace_dish, subscription_menu
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -14,6 +14,8 @@ urlpatterns = [
     path("register/", TemplateView.as_view(template_name="registration.html"), name="register"),
     path("account/", TemplateView.as_view(template_name="lk.html"), name="account"),
     path("dish/<int:pk>/", TemplateView.as_view(template_name="card3.html"), name="dish"),
+    path("subscription/<int:subscription_id>/menu/", subscription_menu, name="subscription_menu"),
+    path("menu/<int:menu_id>/replace/", replace_dish, name="replace_dish"),
 ]
 
 if settings.DEBUG:
