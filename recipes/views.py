@@ -19,7 +19,8 @@ DAILY_REPLACEMENTS_LIMIT = 3
 
 
 def home(request):
-    return render(request, "index.html")
+    dishes = Dish.objects.filter(is_active=True).select_related("diet_type").order_by("?")[:5]
+    return render(request, "index.html", {"dishes": dishes})
 
 
 def order(request):
