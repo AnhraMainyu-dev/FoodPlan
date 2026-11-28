@@ -67,17 +67,17 @@
                                         Калорийность (на 1 порцию): {{ card.calories_per_portion }} ккал
                                     </small>
 
-                                    {% if replacements_left > 0 %}
+                                    {% if replacements_left == 0 %}
+                                        <small class="text-muted">Лимит замен на сегодня исчерпан</small>
+                                    {% elif not card.can_replace %}
+                                        <small class="text-muted">Других подходящих блюд для этого приёма пищи пока нет</small>
+                                    {% else %}
                                         <form method="post" action="{% url 'replace_dish' card.user_menu.id %}">
                                             {% csrf_token %}
                                             <button type="submit" class="btn btn-sm btn-outline-success shadow-none foodplan_green foodplan__border_green">
                                                 Заменить блюдо (осталось замен на сегодня: {{ replacements_left }})
                                             </button>
                                         </form>
-                                    {% elif replacements_left == 0 %}
-                                        <small class="text-muted">Лимит замен на сегодня исчерпан</small>
-                                    {% else %}
-                                        <small class="text-muted">Других подходящих блюд для этого приёма пищи пока нет</small>
                                     {% endif %}
                                 </div>
                             </div>
