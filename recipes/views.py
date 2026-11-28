@@ -1,10 +1,21 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.db import DatabaseError
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
 from .forms import OrderForm
-from .models import Allergy, DietType, MealType, Payment, PersonOption, Subscription, SubscriptionDuration
+from .models import (
+    Allergy,
+    DietType,
+    Dish,
+    MealType,
+    Payment,
+    PersonOption,
+    Subscription,
+    SubscriptionDuration,
+    UserMenu,
+)
 
 DIET_IMAGES = {
     0: "img/menu_classical.png",
