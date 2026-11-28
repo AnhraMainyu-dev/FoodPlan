@@ -18,8 +18,8 @@
                 <a class="navbar-brand" href="{% url 'home' %}">
                     <img src="{% static 'img/logo.8d8f24edbb5f.svg' %}" height="55" width="189" alt="">
                 </a>
-                <h3 class="text-secondary mt-2 me-2">Стоимость: 00000₽</h3>
-                <button form="order" type="submit" class="btn shadow-none btn-sm btn-outline-success foodplan_green foodplan__border_green">Оплатить</button>
+                <h3 class="text-secondary mt-2 me-2">Стоимость: {{ price|default_if_none:"-" }} ₽</h3>
+                <a href="{% url 'account' %}" class="btn shadow-none btn-sm btn-outline-success foodplan_green foodplan__border_green">Личный Кабинет</a>
             </div>
         </nav>
     </header>
@@ -37,7 +37,7 @@
                         <label for="diet-{{ diet.pk }}" class="position-relative" style="cursor: pointer;">
                             <img src="{% static diet.image %}" alt="{{ diet.name }}" class="w-100">
                             <input form="order" type="radio" name="diet_type" id="diet-{{ diet.pk }}" value="{{ diet.pk }}"
-                                class="foodplan_selected d-none" {% if forloop.first %}checked{% endif %}>
+                                class="foodplan_selected d-none" {% if diet.selected %}checked{% endif %}>
                             <div class="img_selected" id="img{{ forloop.counter }}"></div>
                         </label>
                     </div>
@@ -46,78 +46,36 @@
                 <h2><strong>Выберите подходящий тариф</strong></h2>
                 <form id="order" method="post" action="{% url 'order' %}">
                     {% csrf_token %}
+                    {{ form.non_field_errors }}
+                    {{ form.diet_type.errors }}
                     <table class="table text-center text-truncate mb-5">
                         <tbody>
                             <tr>
                                 <th scope="row" class="text-start">Срок</th>
                                 <td>
-                                    <select name="duration" class="form-select">
-                                        {% for duration in durations %}
-                                        <option value="{{ duration.pk }}" {% if forloop.first %}selected{% endif %}>{{ duration.name }}</option>
-                                        {% endfor %}
-                                    </select>
+                                    {{ form.duration }}
+                                    {{ form.duration.errors }}
                                 </td>
                             </tr>
+                            {% for meal in meals %}
                             <tr>
-                                <th scope="row" class="text-start">Завтраки</th>
+                                <th scope="row" class="text-start"><label for="meal-{{ meal.pk }}">{{ meal.name }}</label></th>
                                 <td>
-                                    <select name="meal_types" class="form-select">
-                                        {% for meal in meals %}
-                                        {% if meal.index_value == 0 %}
-                                        <option value="{{ meal.pk }}" selected>&#10004;</option>
-                                        <option value="">&#10008;</option>
-                                        {% endif %}
-                                        {% endfor %}
+                                    <select name="meal_types" id="meal-{{ meal.pk }}" class="form-select">
+                                        <option value="{{ meal.pk }}">&#10004;</option>
+                                        <option value="" {% if meal.pk|stringformat:"s" not in selected_meals %}selected{% endif %}>&#10008;</option>
                                     </select>
                                 </td>
                             </tr>
-                            <tr>
-                                <th scope="row" class="text-start">Обеды</th>
-                                <td>
-                                    <select name="meal_types" class="form-select">
-                                        {% for meal in meals %}
-                                        {% if meal.index_value == 1 %}
-                                        <option value="{{ meal.pk }}" selected>&#10004;</option>
-                                        <option value="">&#10008;</option>
-                                        {% endif %}
-                                        {% endfor %}
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row" class="text-start">Ужины</th>
-                                <td>
-                                    <select name="meal_types" class="form-select">
-                                        {% for meal in meals %}
-                                        {% if meal.index_value == 2 %}
-                                        <option value="{{ meal.pk }}" selected>&#10004;</option>
-                                        <option value="">&#10008;</option>
-                                        {% endif %}
-                                        {% endfor %}
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row" class="text-start">Десерты</th>
-                                <td>
-                                    <select name="meal_types" class="form-select">
-                                        {% for meal in meals %}
-                                        {% if meal.index_value == 3 %}
-                                        <option value="{{ meal.pk }}" selected>&#10004;</option>
-                                        <option value="">&#10008;</option>
-                                        {% endif %}
-                                        {% endfor %}
-                                    </select>
-                                </td>
-                            </tr>
+                            {% endfor %}
+                            {% if form.meal_types.errors %}
+                            <tr><td colspan="2">{{ form.meal_types.errors }}</td></tr>
+                            {% endif %}
                             <tr>
                                 <th scope="row" class="text-start">Кол-во персон</th>
                                 <td>
-                                    <select name="persons" class="form-select">
-                                        {% for person in persons %}
-                                        <option value="{{ person.pk }}" {% if forloop.first %}selected{% endif %}>{{ person.count }}</option>
-                                        {% endfor %}
-                                    </select>
+                                    {{ form.persons }}
+                                    {{ form.persons.errors }}
                                 </td>
                             </tr>
                             <tr>
@@ -126,26 +84,35 @@
                                     {% for allergy in allergies %}
                                     <div class="form-check d-flex justify-content-start">
                                         <input class="form-check-input me-1 foodplan_checked-green" type="checkbox"
-                                            value="{{ allergy.pk }}" name="allergies" id="allergy-{{ allergy.pk }}">
+                                            value="{{ allergy.pk }}" name="allergies" id="allergy-{{ allergy.pk }}"
+                                            {% if allergy.pk|stringformat:"s" in selected_allergies %}checked{% endif %}>
                                         <label class="form-check-label" for="allergy-{{ allergy.pk }}">{{ allergy.name }}</label>
                                     </div>
                                     {% endfor %}
+                                    {{ form.allergies.errors }}
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-                    <button type="submit" id="TableSubmit" class="d-none"></button>
-                </form>
-                <form method="get" class="card d-flex flex-row align-items-baseline mb-5 p-3 foodplan__bg_grey">
-                    <label for="promocode" class="form-label me-2">Промокод</label>
-                    <input type="text" class="form-control me-2" name="promocode" id="promocode">
-                    <button type="submit" class="btn shadow-none btn-outline-success foodplan_green foodplan__border_green">Применить</button>
+                    <div class="card d-flex flex-row align-items-baseline mb-2 p-3 foodplan__bg_grey">
+                        <label for="promocode" class="form-label me-2">Промокод</label>
+                        <input type="text" class="form-control me-2" name="promocode" id="promocode" maxlength="30" value="{{ form.promocode.value|default_if_none:'' }}">
+                        <button type="submit" name="action" value="quote" class="btn shadow-none btn-outline-success foodplan_green foodplan__border_green">Применить</button>
+                    </div>
+                    {{ form.promocode.errors }}
+                    {% if promocode %}
+                    <p>Промокод применён. Скидка: {{ promocode.discount_percent }}%.</p>
+                    {% endif %}
                 </form>
                 <div class="d-flex justify-content-center my-5">
-                    <button form="order" type="submit" class="btn shadow-none btn-outline-success foodplan_green foodplan__border_green w-50">Оплатить</button>
+                    <button form="order" type="submit" name="action" value="order" class="btn shadow-none btn-outline-success foodplan_green foodplan__border_green w-50">Оплатить</button>
                 </div>
                 <div class="text-center mb-5">
-                    <a href="{% url 'login' %}">Войти</a> · <a href="{% url 'register' %}">Зарегистрироваться</a> · <a href="{% url 'account' %}">Личный кабинет</a>
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'account' %}">Личный кабинет</a>
+                    {% else %}
+                    <a href="{% url 'login' %}?next={% url 'order' %}">Войти</a>  <a href="{% url 'register' %}">Зарегистрироваться</a>
+                    {% endif %}
                 </div>
             </div>
         </section>
