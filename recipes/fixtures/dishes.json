@@ -832,5 +832,555 @@
       "ingredient": 19,
       "amount": 5
     }
+  },
+  {
+    "model": "recipes.promocode",
+    "pk": 1,
+    "fields": {
+      "code": "FOOD20",
+      "discount_percent": 20,
+      "valid_until": "2027-03-01",
+      "is_active": true
+    }
+  },
+  {
+    "model": "recipes.ingredient",
+    "pk": 22,
+    "fields": { "name": "Яйцо куриное", "unit": "шт" }
+  },
+  {
+    "model": "recipes.ingredient",
+    "pk": 23,
+    "fields": { "name": "Лосось", "unit": "г" }
+  },
+  {
+    "model": "recipes.ingredient",
+    "pk": 24,
+    "fields": { "name": "Сыр пармезан", "unit": "г" }
+  },
+  {
+    "model": "recipes.ingredient",
+    "pk": 25,
+    "fields": { "name": "Грецкий орех", "unit": "г" }
+  },
+  {
+    "model": "recipes.ingredient",
+    "pk": 26,
+    "fields": { "name": "Мёд", "unit": "г" }
+  },
+  {
+    "model": "recipes.ingredient",
+    "pk": 27,
+    "fields": { "name": "Ягоды свежие", "unit": "г" }
+  },
+  {
+    "model": "recipes.ingredient",
+    "pk": 28,
+    "fields": { "name": "Нут отварной", "unit": "г" }
+  },
+  {
+    "model": "recipes.ingredient",
+    "pk": 29,
+    "fields": { "name": "Оливковое масло", "unit": "мл" }
+  },
+  {
+    "model": "recipes.ingredient",
+    "pk": 30,
+    "fields": { "name": "Тыква", "unit": "г" }
+  },
+  {
+    "model": "recipes.dish",
+    "pk": 11,
+    "fields": {
+      "title": "Овсяная каша на молоке с мёдом и орехами",
+      "description": "Сварите овсяные хлопья на молоке до готовности, добавьте мёд и измельчённые орехи.",
+      "image": "dishes/dish_01.jpg",
+      "diet_type": 1,
+      "meal_type": 1,
+      "allergies": [3, 4, 5, 6],
+      "calories": 380,
+      "is_active": true
+    }
+  },
+  {
+    "model": "recipes.dish",
+    "pk": 12,
+    "fields": {
+      "title": "Гречка с куриным филе и свежими овощами",
+      "description": "Отварите гречку. Куриное филе обжарьте на капле масла и подавайте со свежими овощами.",
+      "image": "dishes/dish_02.jpg",
+      "diet_type": 1,
+      "meal_type": 2,
+      "allergies": [2, 3],
+      "calories": 490,
+      "is_active": true
+    }
+  },
+  {
+    "model": "recipes.dish",
+    "pk": 13,
+    "fields": {
+      "title": "Запечённый лосось с рисом и шпинатом",
+      "description": "Запеките стейк лосося в духовке 15 минут при 180°C. Подайте с отварным рисом и шпинатом.",
+      "image": "dishes/dish_03.jpg",
+      "diet_type": 1,
+      "meal_type": 3,
+      "allergies": [1, 3],
+      "calories": 520,
+      "is_active": true
+    }
+  },
+  {
+    "model": "recipes.dish",
+    "pk": 14,
+    "fields": {
+      "title": "Свежие ягоды с бананом",
+      "description": "Нарежьте банан кружочками и подайте со свежими сезонными ягодами.",
+      "image": "dishes/dish_04.jpg",
+      "diet_type": 1,
+      "meal_type": 4,
+      "allergies": [],
+      "calories": 190,
+      "is_active": true
+    }
+  },
+  {
+    "model": "recipes.dish",
+    "pk": 15,
+    "fields": {
+      "title": "Омлет со шпинатом и помидорами",
+      "description": "Взбейте яйца с молоком, вылейте на сковороду со шпинатом и томатами, готовьте под крышкой.",
+      "image": "dishes/dish_05.jpg",
+      "diet_type": 2,
+      "meal_type": 1,
+      "allergies": [5],
+      "calories": 290,
+      "is_active": true
+    }
+  },
+  {
+    "model": "recipes.dish",
+    "pk": 16,
+    "fields": {
+      "title": "Куриная грудка на гриле с салатом из овощей",
+      "description": "Обжарьте куриное филе без панировки. Нарежьте огурцы, томаты и заправьте оливковым маслом.",
+      "image": "dishes/dish_06.jpg",
+      "diet_type": 2,
+      "meal_type": 2,
+      "allergies": [2],
+      "calories": 410,
+      "is_active": true
+    }
+  },
+  {
+    "model": "recipes.dish",
+    "pk": 17,
+    "fields": {
+      "title": "Лосось на пару с авокадо и шпинатом",
+      "description": "Приготовьте филе лосося на пару, подавайте с ломтиками спелого авокадо и свежим шпинатом.",
+      "image": "dishes/dish_07.jpg",
+      "diet_type": 2,
+      "meal_type": 3,
+      "allergies": [1],
+      "calories": 460,
+      "is_active": true
+    }
+  },
+  {
+    "model": "recipes.dish",
+    "pk": 18,
+    "fields": {
+      "title": "Творожный мусс с ягодами",
+      "description": "Взбейте творог блендером до однородности и украсьте свежими ягодами.",
+      "image": "dishes/dish_08.jpg",
+      "diet_type": 2,
+      "meal_type": 4,
+      "allergies": [5],
+      "calories": 210,
+      "is_active": true
+    }
+  },
+  {
+    "model": "recipes.dish",
+    "pk": 19,
+    "fields": {
+      "title": "Яичница с авокадо и пармезаном",
+      "description": "Поджарьте яйца на оливковом масле, посыпьте тёртым пармезаном и подайте с авокадо.",
+      "image": "dishes/dish_09.jpg",
+      "diet_type": 4,
+      "meal_type": 1,
+      "allergies": [5],
+      "calories": 480,
+      "is_active": true
+    }
+  },
+  {
+    "model": "recipes.dish",
+    "pk": 20,
+    "fields": {
+      "title": "Кето-боул с курицей, авокадо и шпинатом",
+      "description": "Соберите в миске листья шпината, ломтики авокадо, огурец и тёплое куриное филе.",
+      "image": "dishes/dish_10.jpg",
+      "diet_type": 4,
+      "meal_type": 2,
+      "allergies": [2],
+      "calories": 550,
+      "is_active": true
+    }
+  },
+  {
+    "model": "recipes.dish",
+    "pk": 21,
+    "fields": {
+      "title": "Стейк лосося в сливочно-сырном соусе",
+      "description": "Обжарьте лосось, добавьте немного молока и тёртый пармезан, потомите 3 минуты.",
+      "image": "dishes/dish_11.jpg",
+      "diet_type": 4,
+      "meal_type": 3,
+      "allergies": [1, 5],
+      "calories": 610,
+      "is_active": true
+    }
+  },
+  {
+    "model": "recipes.dish",
+    "pk": 22,
+    "fields": {
+      "title": "Авокадо-крем с грецким орехом",
+      "description": "Пюрируйте спелое авокадо и посыпьте дробленым грецким орехом.",
+      "image": "dishes/dish_12.jpg",
+      "diet_type": 4,
+      "meal_type": 4,
+      "allergies": [4],
+      "calories": 320,
+      "is_active": true
+    }
+  },
+  {
+    "model": "recipes.dish",
+    "pk": 23,
+    "fields": {
+      "title": "Овсянка на воде с бананом и ягодами",
+      "description": "Сварите овсяные хлопья на воде, добавьте нарезанный банан и свежие ягоды.",
+      "image": "dishes/dish_13.jpg",
+      "diet_type": 3,
+      "meal_type": 1,
+      "allergies": [3],
+      "calories": 340,
+      "is_active": true
+    }
+  },
+  {
+    "model": "recipes.dish",
+    "pk": 24,
+    "fields": {
+      "title": "Тёплый салат с нутом, томатами и авокадо",
+      "description": "Смешайте отварной нут, нарезанные томаты, огурец, авокадо и заправьте оливковым маслом.",
+      "image": "dishes/dish_14.jpg",
+      "diet_type": 3,
+      "meal_type": 2,
+      "allergies": [4],
+      "calories": 430,
+      "is_active": true
+    }
+  },
+  {
+    "model": "recipes.dish",
+    "pk": 25,
+    "fields": {
+      "title": "Запечённая тыква со шпинатом и оливковым маслом",
+      "description": "Запеките кусочки тыквы с оливковым маслом 25 минут, подавайте на подушке из шпината.",
+      "image": "dishes/dish_15.jpg",
+      "diet_type": 3,
+      "meal_type": 3,
+      "allergies": [],
+      "calories": 280,
+      "is_active": true
+    }
+  },
+  {
+    "model": "recipes.dish",
+    "pk": 26,
+    "fields": {
+      "title": "Запечённая тыква с мёдом и орехами",
+      "description": "Запеките ломтики тыквы до мягкости, полейте мёдом и посыпьте грецкими орехами.",
+      "image": "dishes/dish_16.jpg",
+      "diet_type": 3,
+      "meal_type": 4,
+      "allergies": [4, 6],
+      "calories": 260,
+      "is_active": true
+    }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 33,
+    "fields": { "dish": 11, "ingredient": 7, "amount": 80 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 34,
+    "fields": { "dish": 11, "ingredient": 10, "amount": 200 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 35,
+    "fields": { "dish": 11, "ingredient": 26, "amount": 15 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 36,
+    "fields": { "dish": 11, "ingredient": 25, "amount": 20 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 37,
+    "fields": { "dish": 12, "ingredient": 5, "amount": 100 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 38,
+    "fields": { "dish": 12, "ingredient": 2, "amount": 150 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 39,
+    "fields": { "dish": 12, "ingredient": 12, "amount": 80 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 40,
+    "fields": { "dish": 12, "ingredient": 13, "amount": 80 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 41,
+    "fields": { "dish": 13, "ingredient": 23, "amount": 160 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 42,
+    "fields": { "dish": 13, "ingredient": 1, "amount": 90 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 43,
+    "fields": { "dish": 13, "ingredient": 20, "amount": 50 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 44,
+    "fields": { "dish": 13, "ingredient": 29, "amount": 10 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 45,
+    "fields": { "dish": 14, "ingredient": 15, "amount": 120 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 46,
+    "fields": { "dish": 14, "ingredient": 27, "amount": 120 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 47,
+    "fields": { "dish": 15, "ingredient": 22, "amount": 2 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 48,
+    "fields": { "dish": 15, "ingredient": 10, "amount": 50 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 49,
+    "fields": { "dish": 15, "ingredient": 20, "amount": 40 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 50,
+    "fields": { "dish": 15, "ingredient": 13, "amount": 70 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 51,
+    "fields": { "dish": 16, "ingredient": 2, "amount": 180 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 52,
+    "fields": { "dish": 16, "ingredient": 12, "amount": 100 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 53,
+    "fields": { "dish": 16, "ingredient": 13, "amount": 100 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 54,
+    "fields": { "dish": 16, "ingredient": 29, "amount": 15 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 55,
+    "fields": { "dish": 17, "ingredient": 23, "amount": 170 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 56,
+    "fields": { "dish": 17, "ingredient": 21, "amount": 80 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 57,
+    "fields": { "dish": 17, "ingredient": 20, "amount": 60 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 58,
+    "fields": { "dish": 18, "ingredient": 14, "amount": 150 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 59,
+    "fields": { "dish": 18, "ingredient": 27, "amount": 80 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 60,
+    "fields": { "dish": 19, "ingredient": 22, "amount": 2 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 61,
+    "fields": { "dish": 19, "ingredient": 21, "amount": 80 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 62,
+    "fields": { "dish": 19, "ingredient": 24, "amount": 30 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 63,
+    "fields": { "dish": 19, "ingredient": 29, "amount": 15 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 64,
+    "fields": { "dish": 20, "ingredient": 2, "amount": 170 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 65,
+    "fields": { "dish": 20, "ingredient": 21, "amount": 80 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 66,
+    "fields": { "dish": 20, "ingredient": 20, "amount": 60 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 67,
+    "fields": { "dish": 20, "ingredient": 29, "amount": 20 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 68,
+    "fields": { "dish": 21, "ingredient": 23, "amount": 180 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 69,
+    "fields": { "dish": 21, "ingredient": 24, "amount": 35 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 70,
+    "fields": { "dish": 21, "ingredient": 10, "amount": 50 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 71,
+    "fields": { "dish": 21, "ingredient": 29, "amount": 15 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 72,
+    "fields": { "dish": 22, "ingredient": 21, "amount": 100 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 73,
+    "fields": { "dish": 22, "ingredient": 25, "amount": 25 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 74,
+    "fields": { "dish": 23, "ingredient": 7, "amount": 80 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 75,
+    "fields": { "dish": 23, "ingredient": 15, "amount": 100 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 76,
+    "fields": { "dish": 23, "ingredient": 27, "amount": 70 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 77,
+    "fields": { "dish": 24, "ingredient": 28, "amount": 150 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 78,
+    "fields": { "dish": 24, "ingredient": 13, "amount": 100 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 79,
+    "fields": { "dish": 24, "ingredient": 21, "amount": 80 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 80,
+    "fields": { "dish": 24, "ingredient": 29, "amount": 15 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 81,
+    "fields": { "dish": 25, "ingredient": 30, "amount": 250 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 82,
+    "fields": { "dish": 25, "ingredient": 20, "amount": 60 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 83,
+    "fields": { "dish": 25, "ingredient": 29, "amount": 15 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 84,
+    "fields": { "dish": 26, "ingredient": 30, "amount": 200 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 85,
+    "fields": { "dish": 26, "ingredient": 26, "amount": 15 }
+  },
+  {
+    "model": "recipes.dishingredient",
+    "pk": 86,
+    "fields": { "dish": 26, "ingredient": 25, "amount": 20 }
   }
+
 ]
