@@ -127,3 +127,6 @@ MEDIA_ROOT = BASE_DIR / "media"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "recipes.User"
+
+LOGIN_URL = "login"
+LOGIN_REDIRECT_URL = "account"

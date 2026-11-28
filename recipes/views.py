@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 
+from .forms import ProfileForm
 from .models import Allergy, DietType, Dish, MealType, PersonOption, Subscription, SubscriptionDuration, UserMenu
 
 DIET_IMAGES = {
@@ -41,6 +42,25 @@ def order(request):
         "allergies": Allergy.objects.order_by("index_value"),
     }
     return render(request, "order.html", context)
+
+
+@login_required
+def account(request):
+    if request.method == "POST":
+        form = ProfileForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Данные профиля сохранены.")
+            return redirect("account")
+    else:
+        form = ProfileForm(instance=request.user)
+
+    subscriptions = (
+        request.user.subscriptions.select_related("diet_type", "persons")
+        .prefetch_related("meal_types", "allergies")
+        .order_by("-is_active", "-id")
+    )
+    return render(request, "lk.html", {"form": form, "subscriptions": subscriptions})
 
 
 def get_available_dishes(subscription, meal_type, exclude_dish_ids=None):

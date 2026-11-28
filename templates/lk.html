@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 
 <head>
     <meta charset="UTF-8">
@@ -9,124 +9,146 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'style.css' %}">
-    <title>Foodplan 2021 - Меню на неделю FOODPLAN</title>
+    <title>FoodPlan — личный кабинет</title>
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-md navbar-light fixed-top navbar__opacity">
             <div class="container">
                 <a class="navbar-brand" href="{% url 'home' %}">
-                    <img src="{% static 'img/logo.8d8f24edbb5f.svg' %}" height="55" width="189" alt="">
+                    <img src="{% static 'img/logo.8d8f24edbb5f.svg' %}" height="55" width="189" alt="FoodPlan">
                 </a>
-                <button class="btn btn-outline-success shadow-none foodplan_green foodplan__border_green">Выйти</button>
+                <form method="post" action="{% url 'logout' %}" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-success shadow-none foodplan_green foodplan__border_green">Выйти</button>
+                </form>
             </div>
         </nav>
     </header>
     <main style="margin-top: calc(2rem + 85px);">
         <section>
             <div class="container">
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags|default:'info' }}" role="alert">{{ message }}</div>
+                {% endfor %}
                 <div class="row">
                     <div class="card col-12 p-3 mb-5 foodplan__shadow">
-                        <h4 class="foodplan__backButton">
-                            <strong><small><a href="#" class="link-secondary fw-light"></a></small></strong>
-                        </h4>
                         <h2 class="text-center"><strong>Личный кабинет</strong></h2>
                     </div>
-                    
+
                     <div class="card col-12 col-md-2 p-3 mb-3 d-flex flex-column align-items-center foodplan__shadow">
                         <div class="position-relative">
-                            <img src="{% static 'img/test_avatar.png' %}" alt="" width="100" height="100" class="rounded-pill">
-                            <span class="badge rounded-circle position-absolute bottom-0 end-0 foodplan__bg_green avatar__plus"><a href="#"
-                                    class="link-dark text-decoration-none align-middle">+</a></span>
+                            {% if user.avatar %}
+                            <img src="{{ user.avatar.url }}" alt="Аватар" width="100" height="100" class="rounded-pill">
+                            {% else %}
+                            <img src="{% static 'img/test_avatar.png' %}" alt="Аватар" width="100" height="100" class="rounded-pill">
+                            {% endif %}
+                            <span class="badge rounded-circle position-absolute bottom-0 end-0 foodplan__bg_green avatar__plus">
+                                <a href="#data" data-bs-toggle="tab" data-bs-target="#data"
+                                    class="link-dark text-decoration-none align-middle">+</a>
+                            </span>
                         </div>
-                        <h3 class="card-title text-center">Tim</h3>
+                        <h3 class="card-title text-center">{{ user.get_full_name|default:user.username }}</h3>
                         <div class="d-block">
-                            <button class="btn btn-outline-success shadow-none foodplan_green foodplan__border_green">Выйти</button>
+                            <form method="post" action="{% url 'logout' %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-outline-success shadow-none foodplan_green foodplan__border_green">Выйти</button>
+                            </form>
                         </div>
                     </div>
 
                     <div class="card col-12 col-md-10 p-3 mb-3 foodplan__shadow">
-                            <ul class="nav nav-tabs">
-                                <li class="nav-item foodplan__tab-item">
-                                    <button id="tab1" class="btn shadow-none foodplan__tab-button active" data-bs-toggle="tab" data-bs-target="#data">Персональные данные</button>
-                                </li>
-                                <li class="nav-item foodplan__tab-item">
-                                    <button id="tab2" class="btn shadow-none foodplan__tab-button" data-bs-toggle="tab" data-bs-target="#menu">Моё меню</button>
-                                </li>
-                                <li class="nav-item foodplan__tab-item flex-grow-1"></li>
-                            </ul>
-                            <div class="tab-content mt-2">
-                                <div class="tab-pane fade show active" id="data">
-                                    <form action="">
-                                        <div class="mb-3">
-                                            <div class="d-flex align-items-center justify-content-between">
-                                                <label for="exampleInputEmail1" class="form-label">Имя</label>
-                                                <small><a href="#" class="link-dark foodplan_green">изменить</a></small>
-                                            </div>
-                                        
-                                            <input type="text" class="form-control" id="name">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="exampleInputEmail1" class="form-label">Email</label>
-                                            <input type="email" class="form-control" id="email" aria-describedby="emailHelp">
-                                        </div>
-                                        <div class="mb-3">
-                                            <div class="d-flex align-items-center justify-content-between">
-                                                <label for="exampleInputPassword1" class="form-label">Пароль</label>
-                                                <small><a href="#" class="link-dark foodplan_green">изменить</a></small>
-                                            </div>
-                                        
-                                            <input type="password" class="form-control" id="password">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="exampleInputPassword1" class="form-label">Подтверждение пароля</label>
-                                            <input type="password" class="form-control" id="PasswordConfirm">
-                                        </div>
-                                        <div class="d-block">
-                                            <button type="submit" class="btn shadow-none btn-outline-success foodplan_green foodplan__border_green">Сохранить
-                                                изменения</button>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="tab-pane fade" id="menu">
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item foodplan__tab-item">
+                                <button id="tab1" class="btn shadow-none foodplan__tab-button active" data-bs-toggle="tab" data-bs-target="#data">Персональные данные</button>
+                            </li>
+                            <li class="nav-item foodplan__tab-item">
+                                <button id="tab2" class="btn shadow-none foodplan__tab-button" data-bs-toggle="tab" data-bs-target="#menu">Моё меню</button>
+                            </li>
+                            <li class="nav-item foodplan__tab-item flex-grow-1"></li>
+                        </ul>
+                        <div class="tab-content mt-2">
+                            <div class="tab-pane fade show active" id="data">
+                                <form method="post" action="{% url 'account' %}" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    {% for error in form.non_field_errors %}
+                                    <div class="alert alert-danger" role="alert">{{ error }}</div>
+                                    {% endfor %}
+                                    <div class="mb-3">
+                                        <label for="{{ form.first_name.id_for_label }}" class="form-label">Имя</label>
+                                        {{ form.first_name }}
+                                        {% for error in form.first_name.errors %}
+                                        <div class="text-danger small">{{ error }}</div>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="{{ form.email.id_for_label }}" class="form-label">Email</label>
+                                        {{ form.email }}
+                                        {% for error in form.email.errors %}
+                                        <div class="text-danger small">{{ error }}</div>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="{{ form.avatar.id_for_label }}" class="form-label">Аватар</label>
+                                        {{ form.avatar }}
+                                        {% for error in form.avatar.errors %}
+                                        <div class="text-danger small">{{ error }}</div>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="d-block">
+                                        <button type="submit" class="btn shadow-none btn-outline-success foodplan_green foodplan__border_green">Сохранить изменения</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="tab-pane fade" id="menu">
+                                {% for subscription in subscriptions %}
+                                <div class="card mb-3 foodplan__card_borderless">
                                     <div class="row">
                                         <div class="col-2">
                                             <img src="{% static 'img/circle1.png' %}" alt="" class="w-100">
                                         </div>
-                                        <div class="col-10 col-md-10">
+                                        <div class="col-10">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <h2>{{ subscription.diet_type.name }}</h2>
+                                                {% if subscription.is_active %}
+                                                <span class="badge bg-success">Активна</span>
+                                                {% else %}
+                                                <span class="badge bg-secondary">Не активна</span>
+                                                {% endif %}
+                                            </div>
+                                            <p class="text-muted mb-2">
+                                                {% if subscription.start_date %}с {{ subscription.start_date }}{% endif %}
+                                                {% if subscription.end_date %}до {{ subscription.end_date }}{% endif %}
+                                            </p>
                                             <div class="row">
-                                                <div class="col-12">
-                                                    <h2>Название подписки</h2>
+                                                <div class="col-md-9">
+                                                    <h6>Приёмы пищи: {{ subscription.meal_types.all|length }}</h6>
+                                                    <small class="text-muted">
+                                                        {% for meal_type in subscription.meal_types.all %}{{ meal_type.name }}{% if not forloop.last %}, {% endif %}{% empty %}не выбраны{% endfor %}
+                                                    </small>
                                                 </div>
-                                                <div class="col-md-12 col-lg-9">
-                                                    <h6>Описание подписки Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eius saepe ea nobis necessitatibus
-                                                        consectetur rem! Eligendi assumenda facere sint quibusdam dolorem quasi doloribus nemo, temporibus molestiae
-                                                        distinctio cum laboriosam sed. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eius saepe ea nobis
-                                                        necessitatibus consectetur rem! Eligendi
-                                                        assumenda facere sint quibusdam dolorem quasi doloribus nemo, temporibus molestiae distinctio cum laboriosam
-                                                        sed.</h6>
-                                                </div>
-                                                <div class="col-md-12 col-lg-3 text-muted d-flex flex-column justify-content-between">
-                                                    <div class="d-flex flex-row justify-content-between">
-                                                        <small>Персоны: </small><small>3</small>
+                                                <div class="col-md-3 text-muted">
+                                                    <div class="d-flex justify-content-between"><small>Персоны:</small><small>{{ subscription.persons.count }}</small></div>
+                                                    <div class="d-flex justify-content-between">
+                                                        <small>Аллергии:</small>
+                                                        <small>{% for allergy in subscription.allergies.all %}{{ allergy.name }}{% if not forloop.last %}, {% endif %}{% empty %}нет{% endfor %}</small>
                                                     </div>
-                                                    <div class="d-flex flex-row justify-content-between">
-                                                        <small>Аллергии: </small><small>нет</small>
-                                                    </div>
-                                                    <div class="d-flex flex-row justify-content-between">
-                                                        <small>Калории: </small><small>1400</small>
-                                                    </div>
-                                                    <div class="d-flex flex-row justify-content-between">
-                                                        <small>Кол-во приёмов пищи: </small><small>4</small>
-                                                    </div>
-                                                    
                                                 </div>
                                             </div>
+                                            <a href="{% url 'subscription_menu' subscription.id %}"
+                                                class="btn btn-sm btn-outline-success shadow-none foodplan_green foodplan__border_green mt-3">
+                                                Открыть меню на сегодня
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
+                                {% empty %}
+                                <div class="alert alert-info">
+                                    Подписок пока нет. Оформите подписку, чтобы увидеть своё меню.
+                                </div>
+                                {% endfor %}
                             </div>
-                            
+                        </div>
                     </div>
                 </div>
             </div>
@@ -136,11 +158,11 @@
         <nav class="navbar navbar-expand-md navbar-light mt-5">
             <div class="container p-2">
                 <a class="navbar-brand" href="{% url 'home' %}">
-                    <img src="{% static 'img/logo.8d8f24edbb5f.svg' %}" height="55" width="189" alt="">
+                    <img src="{% static 'img/logo.8d8f24edbb5f.svg' %}" height="55" width="189" alt="FoodPlan">
                 </a>
                 <div class="footer__sideBtns d-flex">
                     <a href="#">
-                        <img src="{% static 'img/vk.png' %}" height="38" width="auto" alt="">
+                        <img src="{% static 'img/vk.png' %}" height="38" width="auto" alt="VK">
                     </a>
                 </div>
             </div>
@@ -158,3 +180,4 @@
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
 </body>
+</html>
