@@ -110,11 +110,7 @@
                                         <div class="col-10">
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <h2>{{ subscription.diet_type.name }}</h2>
-                                                {% if subscription.is_active %}
                                                 <span class="badge bg-success">Активна</span>
-                                                {% else %}
-                                                <span class="badge bg-secondary">Не активна</span>
-                                                {% endif %}
                                             </div>
                                             <p class="text-muted mb-2">
                                                 {% if subscription.start_date %}с {{ subscription.start_date }}{% endif %}

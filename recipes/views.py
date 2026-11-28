@@ -56,9 +56,10 @@ def account(request):
         form = ProfileForm(instance=request.user)
 
     subscriptions = (
-        request.user.subscriptions.select_related("diet_type", "persons")
+        request.user.subscriptions.filter(is_active=True)
+        .select_related("diet_type", "persons")
         .prefetch_related("meal_types", "allergies")
-        .order_by("-is_active", "-id")
+        .order_by("-id")
     )
     return render(request, "lk.html", {"form": form, "subscriptions": subscriptions})
 
@@ -84,6 +85,7 @@ def subscription_menu(request, subscription_id):
         Subscription.objects.select_related("diet_type", "persons").prefetch_related("meal_types", "allergies"),
         id=subscription_id,
         user=request.user,
+        is_active=True,
     )
     today = date.today()
     persons_count = subscription.persons.count
@@ -167,6 +169,7 @@ def replace_dish(request, menu_id):
         UserMenu.objects.select_related("subscription", "dish__meal_type"),
         id=menu_id,
         subscription__user=request.user,
+        subscription__is_active=True,
     )
     today_menus = UserMenu.objects.filter(
         subscription=user_menu.subscription,
