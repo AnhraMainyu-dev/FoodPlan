@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 
+from .forms import ProfileForm
 from .models import Allergy, DietType, Dish, MealType, PersonOption, Subscription, SubscriptionDuration, UserMenu
 
 DIET_IMAGES = {
@@ -43,6 +44,26 @@ def order(request):
     return render(request, "order.html", context)
 
 
+@login_required
+def account(request):
+    if request.method == "POST":
+        form = ProfileForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Данные профиля сохранены.")
+            return redirect("account")
+    else:
+        form = ProfileForm(instance=request.user)
+
+    subscriptions = (
+        request.user.subscriptions.filter(is_active=True)
+        .select_related("diet_type", "persons")
+        .prefetch_related("meal_types", "allergies")
+        .order_by("-id")
+    )
+    return render(request, "lk.html", {"form": form, "subscriptions": subscriptions})
+
+
 def get_available_dishes(subscription, meal_type, exclude_dish_ids=None):
     exclude_dish_ids = exclude_dish_ids or []
     user_allergies = subscription.allergies.all()
@@ -64,6 +85,7 @@ def subscription_menu(request, subscription_id):
         Subscription.objects.select_related("diet_type", "persons").prefetch_related("meal_types", "allergies"),
         id=subscription_id,
         user=request.user,
+        is_active=True,
     )
     today = date.today()
     persons_count = subscription.persons.count
@@ -147,6 +169,7 @@ def replace_dish(request, menu_id):
         UserMenu.objects.select_related("subscription", "dish__meal_type"),
         id=menu_id,
         subscription__user=request.user,
+        subscription__is_active=True,
     )
     today_menus = UserMenu.objects.filter(
         subscription=user_menu.subscription,
